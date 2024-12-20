@@ -4,10 +4,21 @@ import folium
 from folium import Choropleth, LayerControl
 from streamlit_folium import st_folium
 import plotly.express as px
-import ZipFile
+import zipfile
 import os
 
-# Pré-cálculo das estatísticas de risco médio e arredondado
+# Função para descompactar arquivos
+def extract_zip_if_needed(zip_path, target_file):
+    if not os.path.exists(target_file):
+        with zipfile.ZipFile(zip_path, "r") as zip_ref:
+            zip_ref.extractall(".")
+
+# Descompactar arquivos necessários
+extract_zip_if_needed("Risco.zip", "Risco.geojson")
+extract_zip_if_needed("H3.zip", "H3.geojson")
+extract_zip_if_needed("AU.zip", "AU.geojson")
+extract_zip_if_needed("MUN_SP.zip", "MUN_SP.geojson")
+
 # Carregar dados
 malha_viaria = gpd.read_file('Risco.geojson')
 hexagonos_h3 = gpd.read_file('H3.geojson')
@@ -25,11 +36,6 @@ if 'risk_mean_rounded' not in hexagonos_h3.columns:
 
     # Salvar o GeoDataFrame com estatísticas pré-calculadas
     hexagonos_h3.to_file('hexagonos_h3_com_risco.geojson', driver='GeoJSON')
-
-#Verificar e descompactar o arquivo
-if not os.path.exists("MUN_SP.geojson"):
-    with ZipFile("MUN_SP.zip","r") as zip_ref:
-        zip_ref.extractall(".")
 
 # Carregar dados processados
 hexagonos_h3 = gpd.read_file('hexagonos_h3_com_risco.geojson')
