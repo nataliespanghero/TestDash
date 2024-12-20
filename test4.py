@@ -1,4 +1,4 @@
-import streamlit as st
+ximport streamlit as st
 import geopandas as gpd
 import folium
 from folium import Choropleth, LayerControl
@@ -50,7 +50,7 @@ st.title("Dashboard Interativo: Risco de Atropelamento no Estado de São Paulo")
 # Layout da página
 st.sidebar.header("Configurações")
 selected_municipio = st.sidebar.selectbox("Selecione um município:", municipios['NM_MUN'].unique())
-show_areas_urbanas = st.sidebar.button("Mostrar/Esconder Áreas Urbanas")
+show_areas_urbanas = st.sidebar.checkbox("Mostrar Áreas Urbanas", value=False)
 
 # Filtrar município selecionado
 municipio_selecionado = municipios[municipios['NM_MUN'] == selected_municipio]
