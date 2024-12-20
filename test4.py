@@ -37,6 +37,8 @@ if 'risk_mean_rounded' not in hexagonos_h3.columns:
     # Salvar o GeoDataFrame com estatísticas pré-calculadas
     hexagonos_h3.to_file('hexagonos_h3_com_risco.geojson', driver='GeoJSON')
 
+assert os.path.exists("MUN_SP.geojson"), "O arquivo MUN_SP.geojson não foi encontrado!"
+
 # Carregar dados processados
 hexagonos_h3 = gpd.read_file('hexagonos_h3_com_risco.geojson')
 areas_urbanas = gpd.read_file('AU.geojson')
