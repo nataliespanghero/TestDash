@@ -4,6 +4,8 @@ import folium
 from folium import Choropleth, LayerControl
 from streamlit_folium import st_folium
 import plotly.express as px
+import ZipFile
+import os
 
 # Pré-cálculo das estatísticas de risco médio e arredondado
 # Carregar dados
@@ -23,6 +25,11 @@ if 'risk_mean_rounded' not in hexagonos_h3.columns:
 
     # Salvar o GeoDataFrame com estatísticas pré-calculadas
     hexagonos_h3.to_file('hexagonos_h3_com_risco.geojson', driver='GeoJSON')
+
+#Verificar e descompactar o arquivo
+if not os.path.exists("MUN_SP.geojson"):
+    with ZipFile("MUN_SP.zip","r") as zip_ref:
+        zip_ref.extractall(".")
 
 # Carregar dados processados
 hexagonos_h3 = gpd.read_file('hexagonos_h3_com_risco.geojson')
